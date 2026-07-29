@@ -1,4 +1,4 @@
-namespace Jeomseon.PackageNotes
+namespace Jeomseon.Dispatcher
 {
     internal static class PackageArchitectureNotes
     {
