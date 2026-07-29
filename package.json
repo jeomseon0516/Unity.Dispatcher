@@ -1,6 +1,6 @@
 {
   "name": "com.jeomseon.unity.dispatcher",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "displayName": "Jeomseon Unity Dispatcher",
   "description": "Main-thread synchronization-context dispatcher for Unity.",
   "unity": "2022.3",

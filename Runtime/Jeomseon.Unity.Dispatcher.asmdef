@@ -1,6 +1,6 @@
 {
   "name": "Jeomseon.Unity.Dispatcher",
-  "rootNamespace": "Jeomseon",
+  "rootNamespace": "Jeomseon.Dispatcher",
   "references": [
     "Jeomseon.Unity.Core"
   ],
