@@ -1,0 +1,6 @@
+{
+  "name": "Jeomseon.Unity.Dispatcher.Samples.BasicUsage",
+  "references": [
+    "Jeomseon.Unity.Dispatcher"
+  ]
+}

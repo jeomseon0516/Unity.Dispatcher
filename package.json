@@ -1,6 +1,6 @@
 {
   "name": "com.jeomseon.unity.dispatcher",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "displayName": "Jeomseon Unity Dispatcher",
   "description": "Main-thread synchronization-context dispatcher for Unity.",
   "unity": "2022.3",
@@ -20,5 +20,12 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/jeomseon0516/Unity.Dispatcher.git"
-  }
+  },
+  "samples": [
+    {
+      "displayName": "Basic Usage",
+      "description": "패키지 핵심 API를 확인하는 최소 사용 예제입니다.",
+      "path": "Samples~/BasicUsage"
+    }
+  ]
 }

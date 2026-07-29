@@ -1,5 +1,9 @@
 # 변경 기록
 
+## [0.1.1] - 2026-07-29
+
+- 백그라운드 결과의 메인 스레드 전달을 확인하는 `Basic Usage` 샘플을 추가했습니다.
+
 ## [Unreleased]
 
 - TODO(api): Unity 6의 Awaitable.MainThreadAsync 및 Awaitable.BackgroundThreadAsync로 대체 가능한 호출 경로를 분리합니다.
