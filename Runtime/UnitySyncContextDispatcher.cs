@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
-using Jeomseon.Extensions;
+using Jeomseon.Collections;
 
 namespace Jeomseon.Dispatcher
 {
@@ -20,6 +20,9 @@ namespace Jeomseon.Dispatcher
         [UnityEditor.InitializeOnLoadMethod]
 #endif
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+        /* TODO(P0-01, lifecycle): Domain Reload 비활성화와 Play Mode 재진입 시 정적 큐,
+         * SynchronizationContext 및 Application.quitting 구독이 중복되지 않도록 검증합니다.
+         */
         private static void Initialize()
         {
             // .. InitializedOnLoadMethod를 호출하는 Context는 유니티의 메인 스레드이므로 현재 선택된 스레드는 메인 스레드이다 현재 스레드를 캐쉬해둔다
@@ -42,7 +45,7 @@ namespace Jeomseon.Dispatcher
 
             lock (_executionQueue)
             {
-                foreach (Action action in _executionQueue.Dequeueable())
+                foreach (Action action in _executionQueue.Drain())
                 {
                     try // .. 예외 발생시 큐에 담긴 나머지 콜백들이 처리되도록 보장
                     {
@@ -56,6 +59,9 @@ namespace Jeomseon.Dispatcher
             }
         }
 
+        /* TODO(P2-01, api): Unity 6의 Awaitable.MainThreadAsync 및 Awaitable.BackgroundThreadAsync로
+         * 대체 가능한 호출 경로를 지원 Unity 버전별로 분리합니다.
+         */
         public static void Enqueue(Action action)
         {
             if (_unityContext == null)
