@@ -1,0 +1,14 @@
+{
+  "name": "Jeomseon.Unity.Dispatcher.Tests",
+  "rootNamespace": "Jeomseon.Tests",
+  "references": [
+    "Jeomseon.Unity.Dispatcher"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "autoReferenced": false,
+  "optionalUnityReferences": [
+    "TestAssemblies"
+  ]
+}
