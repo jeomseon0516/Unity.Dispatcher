@@ -4,6 +4,9 @@
   "references": [
     "Jeomseon.Unity.Core"
   ],
+  "includePlatforms": [
+    "Editor"
+  ],
   "autoReferenced": true,
   "noEngineReferences": false
 }
