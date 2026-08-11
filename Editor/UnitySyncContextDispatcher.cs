@@ -14,7 +14,7 @@ namespace Jeomseon.Dispatcher
     /// </summary>
     public static class UnitySyncContextDispatcher
     {
-        private static readonly Queue<Action> ExecutionQueue = new();
+        private static readonly Queue<Action> _executionQueue = new();
         private static SynchronizationContext _unityContext;
 
         [InitializeOnLoadMethod]
@@ -31,9 +31,9 @@ namespace Jeomseon.Dispatcher
             AssemblyReloadEvents.beforeAssemblyReload -= HandleBeforeAssemblyReload;
             _unityContext = null;
 
-            lock (ExecutionQueue)
+            lock (_executionQueue)
             {
-                ExecutionQueue.Clear();
+                _executionQueue.Clear();
             }
         }
 
@@ -43,9 +43,9 @@ namespace Jeomseon.Dispatcher
             Debug.Log("Execute Actions");
 #endif
 
-            lock (ExecutionQueue)
+            lock (_executionQueue)
             {
-                foreach (Action action in ExecutionQueue.Drain())
+                foreach (Action action in _executionQueue.Drain())
                 {
                     try // .. 예외 발생시 큐에 담긴 나머지 콜백들이 처리되도록 보장
                     {
@@ -66,11 +66,11 @@ namespace Jeomseon.Dispatcher
                 throw new InvalidOperationException("UnitySyncContextDispatcher 가 초기화 되어있지 않습니다");
             }
 
-            lock (ExecutionQueue)
+            lock (_executionQueue)
             {
                 if (action is not null)
                 {
-                    ExecutionQueue.Enqueue(action);
+                    _executionQueue.Enqueue(action);
                     _unityContext.Post(_ => ExecuteActions(), null); // .. 유니티 스레드의 메세지큐에 동기화 시켜서 호출할 메서드를 보낸다
                 }
             }

@@ -12,24 +12,24 @@ namespace Jeomseon.Tests
 {
     public sealed class UnitySyncContextDispatcherTests
     {
-        private static readonly Type DispatcherType = typeof(UnitySyncContextDispatcher);
+        private static readonly Type _dispatcherType = typeof(UnitySyncContextDispatcher);
 
-        private static readonly FieldInfo ContextField = DispatcherType.GetField(
+        private static readonly FieldInfo _contextField = _dispatcherType.GetField(
             "_unityContext", BindingFlags.Static | BindingFlags.NonPublic);
 
-        private static readonly FieldInfo QueueField = DispatcherType.GetField(
-            "ExecutionQueue", BindingFlags.Static | BindingFlags.NonPublic);
+        private static readonly FieldInfo _queueField = _dispatcherType.GetField(
+            "_executionQueue", BindingFlags.Static | BindingFlags.NonPublic);
 
-        private static readonly MethodInfo HandleBeforeAssemblyReloadMethod = DispatcherType.GetMethod(
+        private static readonly MethodInfo _handleBeforeAssemblyReloadMethod = _dispatcherType.GetMethod(
             "HandleBeforeAssemblyReload", BindingFlags.Static | BindingFlags.NonPublic);
 
-        private static Queue<Action> Queue => (Queue<Action>)QueueField.GetValue(null);
+        private static Queue<Action> Queue => (Queue<Action>)_queueField.GetValue(null);
 
         [Test]
         public void Enqueue_Throws_WhenContextNotInitialized()
         {
-            object previousContext = ContextField.GetValue(null);
-            ContextField.SetValue(null, null);
+            object previousContext = _contextField.GetValue(null);
+            _contextField.SetValue(null, null);
 
             try
             {
@@ -37,14 +37,14 @@ namespace Jeomseon.Tests
             }
             finally
             {
-                ContextField.SetValue(null, previousContext);
+                _contextField.SetValue(null, previousContext);
             }
         }
 
         [UnityTest]
         public IEnumerator Enqueue_ExecutesQueuedAction_OnCapturedContext()
         {
-            Assert.That(ContextField.GetValue(null), Is.Not.Null,
+            Assert.That(_contextField.GetValue(null), Is.Not.Null,
                 "Editor 세션이 UnitySyncContextDispatcher.Initialize()로 초기화되어 있어야 합니다.");
 
             bool executed = false;
@@ -63,25 +63,25 @@ namespace Jeomseon.Tests
         [Test]
         public void HandleBeforeAssemblyReload_ClearsQueueAndContext()
         {
-            object previousContext = ContextField.GetValue(null);
+            object previousContext = _contextField.GetValue(null);
             var handler = (AssemblyReloadEvents.AssemblyReloadCallback)Delegate.CreateDelegate(
-                typeof(AssemblyReloadEvents.AssemblyReloadCallback), HandleBeforeAssemblyReloadMethod);
+                typeof(AssemblyReloadEvents.AssemblyReloadCallback), _handleBeforeAssemblyReloadMethod);
 
             try
             {
-                ContextField.SetValue(null, new SynchronizationContext());
+                _contextField.SetValue(null, new SynchronizationContext());
                 Queue.Enqueue(() => { });
 
-                HandleBeforeAssemblyReloadMethod.Invoke(null, null);
+                _handleBeforeAssemblyReloadMethod.Invoke(null, null);
 
-                Assert.That(ContextField.GetValue(null), Is.Null);
+                Assert.That(_contextField.GetValue(null), Is.Null);
                 Assert.That(Queue.Count, Is.Zero);
             }
             finally
             {
                 // .. HandleBeforeAssemblyReload가 해제한 실제 Editor 세션 구독을 원상 복구한다
                 AssemblyReloadEvents.beforeAssemblyReload += handler;
-                ContextField.SetValue(null, previousContext);
+                _contextField.SetValue(null, previousContext);
             }
         }
     }
