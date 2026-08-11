@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## [0.2.1] - 2026-08-11
+
+- 워크스페이스 명명 규칙에 맞춰 `UnitySyncContextDispatcher`의 `private static readonly` 필드
+  (`ExecutionQueue` → `_executionQueue`)와 테스트의 reflection 필드 이름을 정리했습니다. 공개
+  API 변경은 없습니다.
+
 ## [0.2.0] - 2026-08-10
 
 - **Breaking**: Play Mode·Runtime 디스패치 경로(`RuntimeInitializeOnLoadMethod`, `Application.quitting`
