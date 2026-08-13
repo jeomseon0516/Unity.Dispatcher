@@ -6,7 +6,7 @@ using Jeomseon.Collections;
 using UnityEditor;
 using UnityEngine;
 
-namespace Jeomseon.Dispatcher
+namespace Jeomseon.Unity.Dispatcher
 {
     /// <summary>
     /// Edit Mode 백그라운드 스레드 작업 결과를 Editor 메인 스레드로 전달하는 디스패처입니다.
