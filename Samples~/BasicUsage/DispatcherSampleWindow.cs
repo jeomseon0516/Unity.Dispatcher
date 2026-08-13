@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using Jeomseon.Dispatcher;
+using Jeomseon.Unity.Dispatcher;
 using UnityEditor;
 using UnityEngine;
 
