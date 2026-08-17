@@ -1,5 +1,13 @@
 # 변경 기록
 
+## [Unreleased]
+
+- **(P0-02, Unity 검증 대기)** `Basic Usage` 샘플의 `DispatcherSampleWindow`(`EditorWindow`, 잘못된
+  메뉴 루트 `Window/Jeomseon/...`)를 제거하고, `DispatcherSample`(`MonoBehaviour` +
+  `[ContextMenu]`)과 `DispatcherBasicUsageSample.unity`로 교체했습니다. 별도 메뉴를 찾아 창을 열
+  필요 없이 샘플 Import 직후 Scene을 열어 바로 컨텍스트 메뉴로 확인할 수 있습니다. 아직 Unity에서
+  실제로 열어 확인하지 못했습니다.
+
 ## [0.3.0] - 2026-08-13
 
 - **(Breaking)** 네임스페이스를 `Jeomseon.Dispatcher` → `Jeomseon.Unity.Dispatcher`로 변경했습니다.
