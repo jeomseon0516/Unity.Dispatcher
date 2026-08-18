@@ -1,6 +1,6 @@
 # 변경 기록
 
-## [Unreleased]
+## [0.3.1] - 2026-08-18
 
 - **(버그 수정)** `Basic Usage` 샘플의 `DispatcherSampleWindow`(`EditorWindow`, 잘못된 메뉴 루트
   `Window/Jeomseon/...`)를 Scene 기반 `DispatcherSample`(`MonoBehaviour` + `[ContextMenu]`)로
@@ -8,7 +8,7 @@
   로드하지 못하는 버그("The associated script can not be loaded")가 발견됐습니다. Scene 기반
   샘플을 폐기하고 `DispatcherSampleWindow`(`EditorWindow`)를 복원했습니다 — 메뉴 경로만
   `Jeomseon/Dispatcher/Basic Usage Sample`로 고쳐 원래 목적(`AGENTS.md` `[MenuItem]` 루트 규칙
-  준수)을 유지합니다. **아직 Unity에서 재확인 전입니다.**
+  준수)을 유지합니다. 사용자가 Unity에서 정상 동작 확인.
 
 ## [0.3.0] - 2026-08-13
 
