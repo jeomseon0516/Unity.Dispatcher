@@ -1,7 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Reflection;
 using System.Threading;
 using Jeomseon.Unity.Dispatcher;
 using NUnit.Framework;
@@ -12,24 +10,18 @@ namespace Jeomseon.Tests
 {
     public sealed class UnitySyncContextDispatcherTests
     {
-        private static readonly Type _dispatcherType = typeof(UnitySyncContextDispatcher);
-
-        private static readonly FieldInfo _contextField = _dispatcherType.GetField(
-            "_unityContext", BindingFlags.Static | BindingFlags.NonPublic);
-
-        private static readonly FieldInfo _queueField = _dispatcherType.GetField(
-            "_executionQueue", BindingFlags.Static | BindingFlags.NonPublic);
-
-        private static readonly MethodInfo _handleBeforeAssemblyReloadMethod = _dispatcherType.GetMethod(
-            "HandleBeforeAssemblyReload", BindingFlags.Static | BindingFlags.NonPublic);
-
-        private static Queue<Action> Queue => (Queue<Action>)_queueField.GetValue(null);
+        private sealed class NonExecutingSynchronizationContext : SynchronizationContext
+        {
+            public override void Post(SendOrPostCallback callback, object state)
+            {
+            }
+        }
 
         [Test]
         public void Enqueue_Throws_WhenContextNotInitialized()
         {
-            object previousContext = _contextField.GetValue(null);
-            _contextField.SetValue(null, null);
+            SynchronizationContext previousContext = SynchronizationContext.Current;
+            UnitySyncContextDispatcher.HandleBeforeAssemblyReload();
 
             try
             {
@@ -37,14 +29,15 @@ namespace Jeomseon.Tests
             }
             finally
             {
-                _contextField.SetValue(null, previousContext);
+                SynchronizationContext.SetSynchronizationContext(previousContext);
+                UnitySyncContextDispatcher.Initialize();
             }
         }
 
         [UnityTest]
         public IEnumerator Enqueue_ExecutesQueuedAction_OnCapturedContext()
         {
-            Assert.That(_contextField.GetValue(null), Is.Not.Null,
+            Assert.That(UnitySyncContextDispatcher.IsInitialized, Is.True,
                 "Editor 세션이 UnitySyncContextDispatcher.Initialize()로 초기화되어 있어야 합니다.");
 
             bool executed = false;
@@ -63,25 +56,25 @@ namespace Jeomseon.Tests
         [Test]
         public void HandleBeforeAssemblyReload_ClearsQueueAndContext()
         {
-            object previousContext = _contextField.GetValue(null);
-            var handler = (AssemblyReloadEvents.AssemblyReloadCallback)Delegate.CreateDelegate(
-                typeof(AssemblyReloadEvents.AssemblyReloadCallback), _handleBeforeAssemblyReloadMethod);
+            SynchronizationContext previousContext = SynchronizationContext.Current;
 
             try
             {
-                _contextField.SetValue(null, new SynchronizationContext());
-                Queue.Enqueue(() => { });
+                SynchronizationContext.SetSynchronizationContext(
+                    new NonExecutingSynchronizationContext());
+                UnitySyncContextDispatcher.Initialize();
+                UnitySyncContextDispatcher.Enqueue(() => { });
 
-                _handleBeforeAssemblyReloadMethod.Invoke(null, null);
+                Assert.That(UnitySyncContextDispatcher.PendingActionCount, Is.EqualTo(1));
+                UnitySyncContextDispatcher.HandleBeforeAssemblyReload();
 
-                Assert.That(_contextField.GetValue(null), Is.Null);
-                Assert.That(Queue.Count, Is.Zero);
+                Assert.That(UnitySyncContextDispatcher.IsInitialized, Is.False);
+                Assert.That(UnitySyncContextDispatcher.PendingActionCount, Is.Zero);
             }
             finally
             {
-                // .. HandleBeforeAssemblyReload가 해제한 실제 Editor 세션 구독을 원상 복구한다
-                AssemblyReloadEvents.beforeAssemblyReload += handler;
-                _contextField.SetValue(null, previousContext);
+                SynchronizationContext.SetSynchronizationContext(previousContext);
+                UnitySyncContextDispatcher.Initialize();
             }
         }
     }

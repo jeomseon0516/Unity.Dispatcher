@@ -17,16 +17,30 @@ namespace Jeomseon.Unity.Dispatcher
         private static readonly Queue<Action> _executionQueue = new();
         private static SynchronizationContext _unityContext;
 
+        internal static bool IsInitialized => _unityContext != null;
+
+        internal static int PendingActionCount
+        {
+            get
+            {
+                lock (_executionQueue)
+                {
+                    return _executionQueue.Count;
+                }
+            }
+        }
+
         [InitializeOnLoadMethod]
-        private static void Initialize()
+        internal static void Initialize()
         {
             // .. InitializeOnLoadMethod를 호출하는 Context는 유니티의 메인 스레드이므로 현재 선택된 스레드는 메인 스레드이다 현재 스레드를 캐쉬해둔다
             _unityContext = SynchronizationContext.Current;
+            AssemblyReloadEvents.beforeAssemblyReload -= HandleBeforeAssemblyReload;
             AssemblyReloadEvents.beforeAssemblyReload += HandleBeforeAssemblyReload;
         }
 
         // .. Assembly Reload 직전에 다음 도메인으로 넘어가지 못할 작업과 구독을 정리한다
-        private static void HandleBeforeAssemblyReload()
+        internal static void HandleBeforeAssemblyReload()
         {
             AssemblyReloadEvents.beforeAssemblyReload -= HandleBeforeAssemblyReload;
             _unityContext = null;

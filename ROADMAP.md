@@ -2,6 +2,12 @@
 
 우선순위: `P0` 결함·안전성 → `P1` 핵심 구조 → `P2` API·성능 → `P3` 장기 확장
 
+## 테스트 경계 정리 (2026-08-18, Unity 실행 검증 대기)
+
+- 테스트가 private 정적 Context·Queue·reload 메서드를 reflection으로 변경하던 방식을 제거했습니다.
+- 초기화·reload 정리와 최소 진단 상태를 테스트 어셈블리에만 노출되는 internal 계약으로 검증합니다.
+- 반복 초기화 시 assembly reload 구독이 중복되지 않도록 등록을 멱등화했습니다.
+
 ## 범위 결정 (완료, 2026-08-10)
 
 Unity 6 `Awaitable.MainThreadAsync`/`BackgroundThreadAsync`가 Play Mode·Player 런타임의 메인 스레드
