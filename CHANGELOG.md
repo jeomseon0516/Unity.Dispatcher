@@ -2,11 +2,13 @@
 
 ## [Unreleased]
 
-- **(P0-02, Unity 검증 대기)** `Basic Usage` 샘플의 `DispatcherSampleWindow`(`EditorWindow`, 잘못된
-  메뉴 루트 `Window/Jeomseon/...`)를 제거하고, `DispatcherSample`(`MonoBehaviour` +
-  `[ContextMenu]`)과 `DispatcherBasicUsageSample.unity`로 교체했습니다. 별도 메뉴를 찾아 창을 열
-  필요 없이 샘플 Import 직후 Scene을 열어 바로 컨텍스트 메뉴로 확인할 수 있습니다. 아직 Unity에서
-  실제로 열어 확인하지 못했습니다.
+- **(버그 수정)** `Basic Usage` 샘플의 `DispatcherSampleWindow`(`EditorWindow`, 잘못된 메뉴 루트
+  `Window/Jeomseon/...`)를 Scene 기반 `DispatcherSample`(`MonoBehaviour` + `[ContextMenu]`)로
+  교체했다가(8/17), 이 패키지가 Editor 전용 어셈블리라 Scene에 부착된 컴포넌트의 스크립트를 Unity가
+  로드하지 못하는 버그("The associated script can not be loaded")가 발견됐습니다. Scene 기반
+  샘플을 폐기하고 `DispatcherSampleWindow`(`EditorWindow`)를 복원했습니다 — 메뉴 경로만
+  `Jeomseon/Dispatcher/Basic Usage Sample`로 고쳐 원래 목적(`AGENTS.md` `[MenuItem]` 루트 규칙
+  준수)을 유지합니다. **아직 Unity에서 재확인 전입니다.**
 
 ## [0.3.0] - 2026-08-13
 
