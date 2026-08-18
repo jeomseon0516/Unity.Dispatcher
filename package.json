@@ -1,6 +1,6 @@
 {
   "name": "com.jeomseon.unity.dispatcher",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "displayName": "Jeomseon Unity Dispatcher",
   "description": "Editor-only background-thread-to-main-thread dispatcher for Unity Edit Mode.",
   "unity": "6000.5",
