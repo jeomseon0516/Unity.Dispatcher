@@ -1,5 +1,17 @@
 # Dispatcher 로드맵
 
+## 패키지 폐기 (2026-09-02, Unity 6000.6)
+
+ADR-0005가 명시한 재검토 트리거("Unity가 Awaitable을 Edit Mode까지 확장하면 패키지 존속
+재검토")에 도달했습니다. Unity 6000.6이 `Awaitable.MainThreadAsync()`를 Edit Mode/batchmode
+백그라운드 스레드까지 확장하면서, 6.5까지 이 패키지를 유지하던 유일한 근거(Edit Mode 공백)가
+사라졌습니다. `UnitySyncContextDispatcher`, 전용 asmdef, 테스트와 Sample을 제거했습니다.
+0.4.0은 마이그레이션 문서만 제공하는 retired 릴리스이며 후속 기능 개발은 하지 않습니다.
+
+Edit Mode/batchmode의 `Task.Run` 내부 `Awaitable.MainThreadAsync()` 재개는 2026-09-02 Unity
+`6000.6.0f1` batchmode EditMode Test Framework로 실측 확인했습니다(스레드 ID 일치). 폐기 전제가
+확정됐으므로 되돌리지 않습니다.
+
 우선순위: `P0` 결함·안전성 → `P1` 핵심 구조 → `P2` API·성능 → `P3` 장기 확장
 
 ## 테스트 경계 정리 (2026-08-18, Unity 실행 검증 대기)
