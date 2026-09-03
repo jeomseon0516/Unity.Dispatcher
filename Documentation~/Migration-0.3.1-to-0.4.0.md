@@ -59,21 +59,26 @@ you own that cancellation.)
 
 ## Verify on your Unity version
 
-Run this once (an EditMode test, or a `[MenuItem]`) to confirm `Awaitable.MainThreadAsync` resumes on
-the Editor main thread on your install. It passed on Unity 6000.6.0f1 batchmode on 2026-09-02.
+Run this once (an EditMode test, or a `[MenuItem]`) to confirm the background/main-thread round trip
+works on your install. It passed on Unity 6000.6.0f1 batchmode on 2026-09-02.
 
 ```csharp
 [Test]
-public async Task Awaitable_ResumesOnEditorMainThread()
+public async Task Awaitable_RoundTripsThroughTheEditorMainThread()
 {
     int mainThreadId = Thread.CurrentThread.ManagedThreadId;
 
-    await Task.Run(() => Thread.Sleep(10));      // now on a background thread
-    await Awaitable.MainThreadAsync();           // hop back
+    await Awaitable.BackgroundThreadAsync();
+    Assert.AreNotEqual(mainThreadId, Thread.CurrentThread.ManagedThreadId); // actually off the main thread
 
-    Assert.AreEqual(mainThreadId, Thread.CurrentThread.ManagedThreadId);
+    await Awaitable.MainThreadAsync();
+    Assert.AreEqual(mainThreadId, Thread.CurrentThread.ManagedThreadId);    // resumed on the Editor main thread
 }
 ```
+
+`await Task.Run(...)` in place of `Awaitable.BackgroundThreadAsync()` behaves the same for this check —
+the point is that `Awaitable.MainThreadAsync()` brings you back to the Editor main thread from a
+non-main thread in Edit Mode.
 
 If this fails on your Unity version, stay on 0.3.1 and do not upgrade to 0.4.0.
 
