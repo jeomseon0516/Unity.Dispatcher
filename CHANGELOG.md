@@ -1,5 +1,18 @@
 # 변경 기록
 
+## [0.4.0] - 2026-09-02
+
+- **(Breaking/Retired)** ADR-0005의 재검토 트리거("Unity가 Awaitable을 Edit Mode까지 확장하면
+  패키지 존속 재검토")에 따라, Unity 6000.6이 `Awaitable.MainThreadAsync`/`BackgroundThreadAsync`를
+  Edit Mode와 batchmode 백그라운드 스레드까지 확장한 것을 근거로 이 패키지를 폐기합니다.
+  `UnitySyncContextDispatcher`의 queue·`SynchronizationContext.Post` 구현은 공식 기능과 중복되므로
+  구현·전용 asmdef·테스트·Sample을 제거했습니다.
+- 이 패키지는 마이그레이션 안내만 남긴 retired 호환 패키지입니다. 새 의존성을 추가하지 말고
+  `Awaitable.MainThreadAsync`/`BackgroundThreadAsync`를 직접 사용하세요.
+- **실측 확인 (2026-09-02, Unity 6000.6.0f1 batchmode)**: 백그라운드 `Task.Run` 이후
+  `await Awaitable.MainThreadAsync()`가 Editor 메인 스레드로 재개되는 것을 EditMode Test
+  Framework로 확인했습니다(스레드 ID 일치, 0.05초, 무한 대기 없음). 폐기 근거가 확정됐습니다.
+
 ## [0.3.1] - 2026-08-18
 
 - **(버그 수정)** `Basic Usage` 샘플의 `DispatcherSampleWindow`(`EditorWindow`, 잘못된 메뉴 루트

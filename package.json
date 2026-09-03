@@ -1,13 +1,11 @@
 {
   "name": "com.jeomseon.unity.dispatcher",
-  "version": "0.3.1",
-  "displayName": "Jeomseon Unity Dispatcher",
-  "description": "Editor-only background-thread-to-main-thread dispatcher for Unity Edit Mode.",
-  "unity": "6000.5",
-  "unityRelease": "7f1",
-  "dependencies": {
-    "com.jeomseon.unity.core": "0.2.2"
-  },
+  "version": "0.4.0",
+  "displayName": "Jeomseon Unity Dispatcher (Deprecated)",
+  "description": "Retired compatibility package. Use Unity Awaitable directly in Unity 6000.6 and newer.",
+  "unity": "6000.6",
+  "unityRelease": "0f1",
+  "dependencies": {},
   "author": {
     "name": "jeomseon0516",
     "url": "https://github.com/jeomseon0516"
@@ -15,18 +13,12 @@
   "keywords": [
     "jeomseon",
     "unity",
-    "dispatcher"
+    "dispatcher",
+    "deprecated"
   ],
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/jeomseon0516/Unity.Dispatcher.git"
-  },
-  "samples": [
-    {
-      "displayName": "Basic Usage",
-      "description": "패키지 핵심 API를 확인하는 최소 사용 예제입니다.",
-      "path": "Samples~/BasicUsage"
-    }
-  ]
+  }
 }
