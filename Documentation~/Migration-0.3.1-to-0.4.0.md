@@ -66,6 +66,7 @@ works on your install. It passed on Unity 6000.6.0f1 batchmode on 2026-09-02.
 [Test]
 public async Task Awaitable_RoundTripsThroughTheEditorMainThread()
 {
+    // NUnit EditMode tests start on the Editor main thread.
     int mainThreadId = Thread.CurrentThread.ManagedThreadId;
 
     await Awaitable.BackgroundThreadAsync();
