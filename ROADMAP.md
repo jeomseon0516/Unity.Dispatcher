@@ -2,8 +2,7 @@
 
 ## 패키지 폐기 (2026-09-02, Unity 6000.6)
 
-ADR-0005가 명시한 재검토 트리거("Unity가 Awaitable을 Edit Mode까지 확장하면 패키지 존속
-재검토")에 도달했습니다. Unity 6000.6이 `Awaitable.MainThreadAsync()`를 Edit Mode/batchmode
+Unity 6000.6이 `Awaitable.MainThreadAsync()`를 Edit Mode/batchmode
 백그라운드 스레드까지 확장하면서, 6.5까지 이 패키지를 유지하던 유일한 근거(Edit Mode 공백)가
 사라졌습니다. `UnitySyncContextDispatcher`, 전용 asmdef, 테스트와 Sample을 제거했습니다.
 0.4.0은 마이그레이션 문서만 제공하는 retired 릴리스이며 후속 기능 개발은 하지 않습니다.
@@ -36,7 +35,7 @@ Runtime 경로 자체가 제거되어 더 이상 적용되지 않습니다.
      구독 중복" 문제 자체가 구조적으로 발생하지 않습니다.
 2. **P0-02 (완료, 2026-08-17, 2026-08-18 정정) — Basic Usage 샘플 메뉴 경로 수정**
    - 기존 `DispatcherSampleWindow`(`EditorWindow`)는 `[MenuItem("Window/Jeomseon/Dispatcher
-     Sample")]`을 썼는데, `AGENTS.md`가 명시한 `[MenuItem]` 루트 규칙(`Jeomseon/`으로 시작)을
+     Sample")]`을 써서 공통 `[MenuItem]` 루트(`Jeomseon/`으로 시작)를
      지키지 않고 있었습니다.
    - **2026-08-17 시도 — 되돌림**: 이 문제를 고치면서 `DispatcherSampleWindow`를 완전히 없애고
      Scene에 부착된 `DispatcherSample`(`MonoBehaviour` + `[ContextMenu]`, `ShaderLookupSample`/
@@ -49,8 +48,7 @@ Runtime 경로 자체가 제거되어 더 이상 적용되지 않습니다.
      없었음 — 컴파일이 아니라 Editor-only 어셈블리 스크립트를 Scene 컴포넌트로 쓰는 조합 자체의
      문제). 애초에 이 패키지가 Runtime 경로를 의도적으로 제거한 Editor 전용 도구이므로, 결과물도
      Scene Sample이 아니라 `EditorWindow` 같은 **Editor 전용 도구**로 제공하는 게 구조적으로
-     맞습니다(`AGENTS.md`의 "Editor 전용 기능은 Scene Sample 대신 Editor 전용 디버깅 도구 제공"
-     예외 조항, `Jeomseon.Unity.EditorToolkit`과 같은 패턴).
+     맞습니다(`Jeomseon.Unity.EditorToolkit`과 같은 패턴).
    - **최종 수정**: `DispatcherSample.cs`(MonoBehaviour)와 `DispatcherBasicUsageSample.unity`를
      제거하고, 원래의 `DispatcherSampleWindow`(`EditorWindow`)를 복원하되 메뉴 경로만
      `Jeomseon/Dispatcher/Basic Usage Sample`로 고쳤습니다. 동작은 동일(백그라운드 스레드 →

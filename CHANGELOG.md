@@ -2,8 +2,7 @@
 
 ## [0.4.0] - 2026-09-02
 
-- **(Breaking/Retired)** ADR-0005의 재검토 트리거("Unity가 Awaitable을 Edit Mode까지 확장하면
-  패키지 존속 재검토")에 따라, Unity 6000.6이 `Awaitable.MainThreadAsync`/`BackgroundThreadAsync`를
+- **(Breaking/Retired)** Unity 6000.6이 `Awaitable.MainThreadAsync`/`BackgroundThreadAsync`를
   Edit Mode와 batchmode 백그라운드 스레드까지 확장한 것을 근거로 이 패키지를 폐기합니다.
   `UnitySyncContextDispatcher`의 queue·`SynchronizationContext.Post` 구현은 공식 기능과 중복되므로
   구현·전용 asmdef·테스트·Sample을 제거했습니다.
@@ -20,13 +19,13 @@
   교체했다가(8/17), 이 패키지가 Editor 전용 어셈블리라 Scene에 부착된 컴포넌트의 스크립트를 Unity가
   로드하지 못하는 버그("The associated script can not be loaded")가 발견됐습니다. Scene 기반
   샘플을 폐기하고 `DispatcherSampleWindow`(`EditorWindow`)를 복원했습니다 — 메뉴 경로만
-  `Jeomseon/Dispatcher/Basic Usage Sample`로 고쳐 원래 목적(`AGENTS.md` `[MenuItem]` 루트 규칙
-  준수)을 유지합니다. 사용자가 Unity에서 정상 동작 확인.
+  `Jeomseon/Dispatcher/Basic Usage Sample`로 고쳐 공통 `Jeomseon/` 메뉴 루트를 유지합니다.
+  사용자가 Unity에서 정상 동작 확인.
 
 ## [0.3.0] - 2026-08-13
 
 - **(Breaking)** 네임스페이스를 `Jeomseon.Dispatcher` → `Jeomseon.Unity.Dispatcher`로 변경했습니다.
-  워크스페이스 전체 네임스페이스 규칙(`AGENTS.md` 참고)을 적용한 것으로, 폴더 구조 변경은 없습니다.
+  패키지 네임스페이스 규칙을 적용한 것으로, 폴더 구조 변경은 없습니다.
 
 ## [0.2.1] - 2026-08-11
 
