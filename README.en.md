@@ -1,8 +1,30 @@
-# Jeomseon Unity Dispatcher — Retired
+# Jeomseon Unity Dispatcher (Deprecated)
 
-From Unity 6000.6, the official `Awaitable.MainThreadAsync` switches background work to the Unity Editor
-main thread in Edit Mode and batch mode as well as in Play Mode and Players. The custom dispatcher became
-redundant and was removed in 0.4.0.
+[한국어](README.md) | English
 
-Do not install this package in new projects. Existing users should follow the
-[0.3.1 to 0.4.0 migration guide](Documentation~/Migration-0.3.1-to-0.4.0.md).
+Retired package replaced by official Unity 6000.6 Awaitable APIs. Not intended for new installations.
+
+## Quick start
+
+Migrate old Dispatcher calls to Awaitable.MainThreadAsync/BackgroundThreadAsync and remove the retired dependency. Follow the Migration document for replacements.
+
+## Contracts and limitations
+
+The current version contains no former Dispatcher runtime implementation. Historical examples/classes are not available for new projects.
+
+## Requirements
+
+- Unity `6000.6.0f1`
+- Package: `com.jeomseon.unity.dispatcher` `0.4.0`
+## Samples
+
+No Package Manager sample is registered. Follow the migration/build instructions above.
+
+## Further reading
+
+[Complete source map and package metadata](Documentation~/Overview.en.md)
+- [Changelog](CHANGELOG.md)
+
+## License
+
+[License](LICENSE.md)
